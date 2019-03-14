@@ -19,7 +19,7 @@ A sample web chat application with the folling features
 ### Installing
 
 * make a table with the name chat and run sthe content of sql.sql
-* copy the content of the htdocs folder to the server main folder
+* copy the content of the html folder to the server main folder
 * configure the database and the connection type on functions.php line 1-5
 * configure the connection type in js/chat.js on line 1 (boolean)
 * visit the website and make the admin account
