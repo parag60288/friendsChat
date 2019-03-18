@@ -12,8 +12,10 @@ h1, h2{
 }
 
 nav{
-    height: 10vh;
     background-color: lightgreen;
+    border-bottom: 1px solid darkgreen;
+    box-shadow: black 0px 1px;
+    height: 10vh;
 }
 
 nav p{

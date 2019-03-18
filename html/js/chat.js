@@ -1,4 +1,6 @@
 let SecureConnection=false;
+var messageIntervalMS = 1000;
+
 let protocol='http';
 if (SecureConnection) {
     protocol = 'https';
@@ -20,7 +22,7 @@ function loadNewMessenges(firstmessage, newMessage) {
                 addMessages(jsonResponse, true, true);
             });
         sendNotification();
-        setTimeout(function(){loadNewMessenges(false, true)}, 1000);
+        setTimeout(function(){loadNewMessenges(false, true)}, messageIntervalMS);
     }
     else if (newMessage){
         fetch(mylocation+"?function=getMessenges&latestMessageNR="+newestMessage)
@@ -30,7 +32,7 @@ function loadNewMessenges(firstmessage, newMessage) {
             .then(function(jsonResponse) {
                 addMessages(jsonResponse, true);
             });
-        setTimeout(function(){loadNewMessenges(false, true)}, 1000);
+        setTimeout(function(){loadNewMessenges(false, true)}, messageIntervalMS);
     }
     else{
         fetch(mylocation+"?function=getMessenges&oldestMessageNR="+oldestMessage)

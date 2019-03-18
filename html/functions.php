@@ -1,7 +1,7 @@
 <?php
 $GLOBALS["databaseLocation"]="localhost";
-$GLOBALS["databaseUsername"]="username";
-$GLOBALS["databasePassword"]="password";
+$GLOBALS["databaseUsername"]="root";
+$GLOBALS["databasePassword"]="";
 $GLOBALS["databasename"]="chat";
 $GLOBALS["secureConnection"]=false;
 
@@ -10,33 +10,99 @@ $GLOBALS["secureConnection"]=false;
  **********************/
 
 function setupComplete(){
-    if (databaseRows("SELECT * FROM users")>0){
-        return true;
+    if (databaseRows('SHOW TABLES FROM '.$GLOBALS["databasename"], true)>0) {
+        if (databaseRows("SELECT * FROM users")>0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     else{
+        databaseQuery( 'CREATE DATABASE IF NOT EXISTS '.$GLOBALS["databasename"], true);
+        databaseQuery( 'SET FOREIGN_KEY_CHECKS = 0;
+                        DROP TABLE IF EXISTS `users`;
+                        DROP TABLE IF EXISTS `chat`;
+                        DROP TABLE IF EXISTS `registercodes`;
+                        SET FOREIGN_KEY_CHECKS = 1;
+
+                        CREATE TABLE `users` (
+                            `userID` SMALLINT NOT NULL,
+                            `username` VARCHAR(128) NOT NULL,
+                            `password` CHAR(60) NOT NULL,
+                            `email` VARCHAR(255),
+                            `isAdmin` BOOLEAN NOT NULL,
+                            `enabled` BOOLEAN NOT NULL,
+                            PRIMARY KEY (`userID`)
+                        );
+
+                        CREATE TABLE `chat` (
+                            `messageNR` BIGINT NOT NULL,
+                            `userID` SMALLINT NOT NULL,
+                            `dateTime` DATETIME NOT NULL,
+                            `message` VARCHAR(2048) NOT NULL,
+                            PRIMARY KEY (`messageNR`, `userID`),
+                            UNIQUE (`messageNR`)
+                        );
+
+                        CREATE TABLE `registercodes` (
+                            `code` CHAR(128) NOT NULL,
+                            `active` BOOLEAN NOT NULL,
+                            `validUntill` DATETIME NOT NULL,
+                            PRIMARY KEY (`code`)
+                        );
+
+                        ALTER TABLE `chat` ADD FOREIGN KEY (`userID`) REFERENCES `users`(`userID`);');
         return false;
     }
 }
 
-function databaseRows($query){
-    $conn=mysqli_connect($GLOBALS["databaseLocation"], $GLOBALS["databaseUsername"], $GLOBALS["databasePassword"], $GLOBALS["databasename"]);
+function databaseRows($query, $noDatabase=false){
+    $conn;
+    if ($noDatabase) {
+        $conn=mysqli_connect($GLOBALS["databaseLocation"], $GLOBALS["databaseUsername"], $GLOBALS["databasePassword"]);
+    }
+    else{
+        $conn=mysqli_connect($GLOBALS["databaseLocation"], $GLOBALS["databaseUsername"], $GLOBALS["databasePassword"], $GLOBALS["databasename"]);
+    }
 
-    $queryResult = mysqli_query($conn, $query);
-    if (strtoupper(substr($query,0, 6))=="SELECT"){
-        return mysqli_num_rows($queryResult);
+    if ($conn) {
+        $queryResult = mysqli_query($conn, $query);
+        if (strtoupper(substr($query, 0, 6))=="SELECT" || strtoupper(substr($query, 0, 4))=="SHOW"){
+            if ($queryResult==false) {
+                return 0;
+            }
+            else{
+                return mysqli_num_rows($queryResult);
+            }
+        }
+    }
+    else{
+        return 0;
     }
 }
 
-function databaseQuery($query){
-
-    $conn=mysqli_connect($GLOBALS["databaseLocation"], $GLOBALS["databaseUsername"], $GLOBALS["databasePassword"], $GLOBALS["databasename"]);
-
-    $queryResult = mysqli_query($conn, $query);
-    echo mysqli_error($conn);
-    if (strtoupper(substr($query,0, 6))=="SELECT"){
-        return mysqli_fetch_all($queryResult);
+function databaseQuery($query, $noDatabase=false){
+    $conn;
+    if ($noDatabase) {
+        $conn=mysqli_connect($GLOBALS["databaseLocation"], $GLOBALS["databaseUsername"], $GLOBALS["databasePassword"]);
     }
-    mysqli_close($conn);
+    else{
+        $conn=mysqli_connect($GLOBALS["databaseLocation"], $GLOBALS["databaseUsername"], $GLOBALS["databasePassword"], $GLOBALS["databasename"]);
+    }
+
+    if ($conn) {
+        if (substr_count($query, "\n")) {
+            mysqli_multi_query($conn, $query);
+        }
+        else{
+            $queryResult = mysqli_query($conn, $query);
+            echo mysqli_error($conn);
+            if (strtoupper(substr($query, 0, 6))=="SELECT" || strtoupper(substr($query, 0, 4))=="SHOW"){
+                return mysqli_fetch_all($queryResult);
+            }
+        }
+    }
 }
 
 /******************
@@ -55,7 +121,6 @@ function addUser($username, $password, $email, $isAdmin, $code=""){
     $email=htmlspecialchars($email);
 
     databaseQuery("INSERT INTO users VALUES (".$userCount.", '".$username."', '".$password."', '".$email."', ".$isAdminStr.", true)");
-
     if ($code!="") {
         databaseQuery("UPDATE registercodes set active=false where code='".$code."'");
     }

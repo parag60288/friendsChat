@@ -13,12 +13,13 @@ if (isset($_POST["disableUsername"])){
 
 <main>
     <div id="generateCode">
+    	<h3>Generate Code</h3>
         <?php
             if (isset($_GET['registrationCodeRequest'])) {
                 echo '<p>the following link can be used to register 1 person. this link is valid for 24 hours <br> <a href="#">'.getMyHostName().'/register.php?registerCode='.generateRegistrationCode().'</a></p>';
             }
         ?>
-        <form action="" method="get"><input type="submit" name="registrationCodeRequest"></form>
+        <form action="" method="get"><input type="submit" name="registrationCodeRequest" value="Genrate register URL"></form>
     </div>
 
     <div id="disableUserForm">
