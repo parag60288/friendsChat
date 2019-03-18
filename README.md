@@ -18,12 +18,25 @@ A sample web chat application with the folling features
 
 ### Installing
 
-* make a table with the name chat and run sthe content of sql.sql
+## with database creation rights
 * copy the content of the html folder to the server main folder
 * configure the database and the connection type on functions.php line 1-5
 * configure the connection type in js/chat.js on line 1 (boolean)
 * visit the website and make the admin account
 * editing a few html tags in info.php to present the info you want to show
+
+## without database creation rights
+
+* run sql.sql in your database
+* copy the content of the html folder to the server main folder
+* configure the database and the connection type on functions.php line 1-5
+* configure the connection type in js/chat.js on line 1 (boolean)
+* visit the website and make the admin account
+* editing a few html tags in info.php to present the info you want to show
+
+## using
+
+In the admin panel you can create links to share with people you know. those links are valid for 24 hours and can only be used once.
 
 ## Contributing
 
