@@ -4,7 +4,6 @@ html, body{
     min-height: 100vh;
     padding: 0;
     width: 100vw;
-    overflow: hidden;
 }
 
 h1, h2{
@@ -13,51 +12,44 @@ h1, h2{
 
 nav{
     background-color: lightgreen;
-    border-bottom: 1px solid darkgreen;
-    box-shadow: black 0px 1px;
     height: 10vh;
 }
 
 nav p{
-    margin-top: 0;
+    margin: 0;
 }
 
-main, nav{
-    padding-left: 5vw;
-    width: 90vw;
-    padding-right: 5vw;
-}
-
-main{
-    padding-top: 2vh;
-    max-height: 85vh;
+nav p{
+    padding-left: 5%;
+    padding-right: 5%;
+    width: 90%;
 }
 
 #loginform, #addAdminForm{
+    display: table;
     margin-left: auto;
     margin-right: auto;
-    display: table;
 }
 
 #chatbox{
-    height: 15vh;
     display: flex;
-    overflow-y: auto;
 }
 
 #chatbox textarea{
     height: 10vh;
+    margin: 0;
+    padding: 0;
+    resize: none;
     width: 85%;
 }
 
 #chatbox button {
-    width: 15%;
     height: 10vh;
+    width: 15%;
 }
 
 #chatScroller{
-    height: 71vh;
-    overflow-x: auto;
+    overflow-y: auto;
 }
 
 #oldButton{
@@ -83,10 +75,59 @@ main{
     padding-left: 2vw;
 }
 
-@media screen and (orientation: landscape) and (min-width: 1000px){
-    main, nav{
-        padding-left: 15vw;
-        width: 70vw;
-        padding-right: 15vw;
+#navLinks{
+    display: block;
+}
+
+/*MOBILE ONLY*/
+@media screen and (max-width: 1023px){
+    nav{
+        border-bottom: 1px solid darkgreen;
+        box-shadow: black 0px 1px;
+    }
+    #contentContainer{
+        padding-left: 5vw;
+        width: 90vw; 
+    }
+}
+
+/*MOBILE LANDSCAPE*/
+@media screen and (orientation: landscape){
+    #navLinks{
+        display: initial;
+    }
+}
+
+/*DESKTOP*/
+@media screen and (orientation: landscape) and (min-width: 1024px){
+
+    .container, nav{
+        padding-left: 0vw;
+        padding-right: 0vw;
+        width: 100vw;
+    }
+
+    #contentContainer{
+        background-color: lightblue;
+        border-radius: 10px;
+        margin-left: 5vw;
+        margin-right: 5vw;
+        margin-top: 2vh;
+        min-height: 79vh;
+        padding: 3vh 2.5vw;
+    }
+
+    .container{
+        margin-left: 25vw;
+        margin-right: 20vw;
+        width: 50vw;
+    }
+
+    nav, #contentContainer{
+        box-shadow: 5px 5px gray;
+    }
+
+    nav{
+        border-radius: 0px 5px 5px 0px
     }
 }

@@ -10,9 +10,12 @@ let mylocation=protocol+'://'+window.location.hostname+"/api.php";
 var oldestMessage = -1;
 var newestMessage = -1;
 
+var normalHeight;
+
 loadNewMessenges(true, false);
 
 function loadNewMessenges(firstmessage, newMessage) {
+    resizeWindow();
     if (firstmessage) {
         fetch(mylocation+"?function=getMessenges")
             .then(function(response) {
@@ -97,11 +100,11 @@ function addMessages(jsonResponse, isNew, chatInit=false){
 
     if (oldestMessage>0 && document.getElementById("chatScroller").scrollTop===0){
         document.getElementById("oldButton").hidden=false;
-        document.getElementById("chatScroller").style.height = '71vh';
+        document.getElementById("chatScroller").style.height = normalHeight+'vh';
     }
     else{
         document.getElementById("oldButton").hidden=true;
-        document.getElementById("chatScroller").style.height = '75vh';
+        document.getElementById("chatScroller").style.height = (normalHeight+4)+'vh';
     }
 }
 
@@ -122,5 +125,14 @@ function sendNotification(message='') {
                 var notification = new Notification('You will receive your chat notifications here :)');
             }
         });
+    }
+}
+
+function resizeWindow(){
+    if (window.innerWidth>1024 && window.innerWidth>window.innerHeight){
+        normalHeight = 65;
+    }
+    else{
+        normalHeight = 71;
     }
 }

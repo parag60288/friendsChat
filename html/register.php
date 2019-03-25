@@ -28,31 +28,33 @@ else if (setupComplete()){
 }
 ?>
 
-<main>
-    <form name="addAdmin" id="addAdmin" action="#" method="post"></form>
+<div class="container">
+    <div id="contentContainer">
+        <form name="addAdmin" id="addAdmin" action="#" method="post"></form>
 
-    <div id="addAdminForm">
-        <h2><?php echo $title;?></h2>
-        <table>
-            <tr>
-                <td>Username</td>
-                <td><input type="text" name="username" id="" form="addAdmin" required></td>
-            </tr>
-            <tr>
-                <td>password</td>
-                <td><input type="password" name="password" id="" form="addAdmin" required></td>
-            </tr>
-            <tr>
-                <td>email</td>
-                <td><input type="email" name="email" id="" form="addAdmin" required></td>
-            </tr>
-            <tr hidden>
-                <td><input type="text" name="registerCode" form="addAdmin" value="<?php echo $_GET['registerCode'];?>"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" name="" id="" form="addAdmin"></td>
-            </tr>
-        </table>
+        <div id="addAdminForm">
+            <h2><?php echo $title;?></h2>
+            <table>
+                <tr>
+                    <td>Username</td>
+                    <td><input type="text" name="username" id="" form="addAdmin" required></td>
+                </tr>
+                <tr>
+                    <td>password</td>
+                    <td><input type="password" name="password" id="" form="addAdmin" required></td>
+                </tr>
+                <tr>
+                    <td>email</td>
+                    <td><input type="email" name="email" id="" form="addAdmin" required></td>
+                </tr>
+                <tr hidden>
+                    <td><input type="text" name="registerCode" form="addAdmin" value="<?php echo $_GET['registerCode'];?>"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" name="" id="" form="addAdmin"></td>
+                </tr>
+            </table>
+        </div>
     </div>
-</main>
+</div>
