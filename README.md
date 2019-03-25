@@ -10,11 +10,20 @@ A sample web chat application with the folling features
 * chat storage in database
 * abillity to change your own account details
 
+when it is fully done it can be used for educational purposes, since it covers the the following topics
+
+* setting up an api
+* responsive design
+* database handling
+* basic security
+
 ### Prerequisites
 
 * recent php
 * recent mysql / mariadb
 * recent apache2 server
+
+The database is designed with staruml and generated with the DDL plugin available for staruml
 
 ### Installing
 
